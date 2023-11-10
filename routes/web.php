@@ -7,10 +7,10 @@ use App\Http\Controllers\CorController;
 use App\Http\Controllers\ProdutoController;
 
 Route::group(['prefix'=>'produto'], function() {
-    Route::get('/', [ProdutoController::class, 'index']);
+    Route::get('/', [ProdutoController::class, 'index'])->name('produto.index');
     Route::get('/inserir', [ProdutoController::class, 'inserir']);
     Route::post('/inserir', [ProdutoController::class, 'salvar_novo']);
-    Route::post('/alterar{id}', [ProdutoController::class, 'alterar'])->name('produto.editar');
+    Route::put('/alterar{id}', [ProdutoController::class, 'atualizar'])->name('produto.atualizar');
     Route::get('/alterar{id}', [ProdutoController::class, 'alterar'])->name('produto.alterar');
     Route::delete('/excluir{id}', [ProdutoController::class, 'excluir'])->name('produto.excluir');
 });

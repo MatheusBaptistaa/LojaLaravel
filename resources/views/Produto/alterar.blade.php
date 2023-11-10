@@ -4,9 +4,9 @@
     <h1 class="h3 mb-4 text-gray-800">Alterar Produto</h1>
     <div class="card">
         <div class="card-body">
-            <form action="{{ route('produto.editar', ['id' => $produto['id']]) }}" method="POST" style="display: flex; flex-direction: column">
+            <form action="{{ route('produto.atualizar', ['id' => $produto['id']]) }}" method="POST" style="display: flex; flex-direction: column">
                 @csrf
-                @method('POST')
+                @method('PUT')
 
                 <label>Nome do Produto</label>
                 <input type="text" name="nome" value="{{$produto['nome']}}" style="margin-bottom: 10px" placeholder="Nome">
@@ -36,7 +36,7 @@
                 <input type="text" name="quantidade" value="{{$produto['quantidade']}}" style="margin-bottom: 10px" placeholder="Quantidade">
 
                 <label>Descrição</label>
-                <input type="text" name="descricao" value="{{$produto['descricao']}}" style="margin-bottom: 10px" placeholder="Descrição">
+                <textarea id="editDesc" name="descricao" style="margin-bottom: 10px" placeholder="Descrição">{{$produto['descricao']}}</textarea>
 
 
                 <div style="width: 100%; display: flex; justify-content: flex-end">
@@ -47,4 +47,14 @@
             </form>
         </div>
     </div>
+@endsection
+
+@section('scripts')
+<script>
+    ClassicEditor
+        .create( document.querySelector( '#editDesc' ) )
+        .catch( error => {
+            console.error( error );
+        } );
+</script>
 @endsection

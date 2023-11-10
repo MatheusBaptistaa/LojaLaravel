@@ -65,30 +65,43 @@ class ProdutoController extends Controller
 
         return redirect()->route('produto.index')->with('success', 'produto excluida com sucesso.');
     }
-        public function alterar($id){
+
+    public function atualizar(Request $request, $id) {
+        $produto = Produto::find($id);
+    
+        if (!$produto) {
+            return redirect()->route('produto.index')->with('error', 'Produto não encontrado.');
+        }
+    
+        $produto->nome = $request->input('nome');
+        $produto->id_categoria = $request->input('id_categoria');
+        $produto->id_marca = $request->input('id_marca');
+        $produto->preco = $request->input('preco');
+        $produto->quantidade = $request->input('quantidade');
+        $produto->descricao = html_entity_decode(strip_tags($request->input('descricao')));
+    
+        $produto->save();
+    
+        return redirect()->route('produto.index')->with('success', 'Produto atualizado com sucesso.');
+    }
+    
+    public function alterar($id) {
         $produto = Produto::find($id);
         $marca = Marca::find($produto['id_marca']);
         $categoria = Categoria::find($produto['id_categoria']);
         $categorias = Categoria::all()->toArray();
         $marcas = Marca::all()->toArray();
     
-        return view('produto.alterar',[
-            'produto'=>$produto,
-            'marca'=>$marca,
-            'categoria'=>$categoria,
-            'listaCategorias'=>$categorias,
-            'listaMarcas'=>$marcas,
-        ]);
-        
-
-        
-
-
         if (!$produto) {
-            return redirect()->route('produto.index')->with('error', 'produto não encontrada.');
+            return redirect()->route('produto.index')->with('error', 'Produto não encontrado.');
         }
-
-        return view('produto.alterar', compact('produto'));
+    
+        return view('produto.alterar', [
+            'produto' => $produto,
+            'marca' => $marca,
+            'categoria' => $categoria,
+            'listaCategorias' => $categorias,
+            'listaMarcas' => $marcas,
+        ]);
     }
-}   
-
+}
