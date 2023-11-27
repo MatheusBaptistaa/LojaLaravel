@@ -13,6 +13,7 @@ Route::group(['prefix'=>'produto'], function() {
     Route::put('/alterar{id}', [ProdutoController::class, 'atualizar'])->name('produto.atualizar');
     Route::get('/alterar{id}', [ProdutoController::class, 'alterar'])->name('produto.alterar');
     Route::delete('/excluir{id}', [ProdutoController::class, 'excluir'])->name('produto.excluir');
+    Route::get('/clientes', [ProdutoController::class, 'clientes'])->name('produto.clientes');
 });
 
 Route::group(['prefix'=>'marca'], function() {
@@ -56,3 +57,11 @@ Route::group(['prefix' => 'cor'], function () {
 
 
 Route::get('/', [MarcaController::class, 'index']);
+
+Route::group(['prefix'=>'clientes'], function() {
+        Route::get('/', [ProdutoController::class, 'clientes'])->name('produto.clientes');
+    });
+
+    Route::get('/prodcar', [ProdutoController::class, 'prodcar'])->name('produtos.prodcar');
+    Route::post('/adicionar-ao-carrinho/{produto}', [ProdutoController::class, 'adicionarAoCarrinho'])->name('adicionar-ao-carrinho');
+    Route::get('/carrinho', [ProdutoController::class, 'mostrarCarrinho'])->name('mostrar-carrinho');

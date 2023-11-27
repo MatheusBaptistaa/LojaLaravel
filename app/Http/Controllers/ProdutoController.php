@@ -47,12 +47,13 @@ class ProdutoController extends Controller
         $produto->id_marca = $request->input("id_marca");
         $produto->preco = $request->input("preco");
         $produto->quantidade = $request->input("quantidade");
-        $produto->descricao = $request->input("descricao");
+        $produto->descricao = html_entity_decode(strip_tags($request->input('descricao')));
 
         $produto->save();
 
         return redirect()->route("produto.index");
  
+    
        }
 
        public function excluir($id){
@@ -103,5 +104,67 @@ class ProdutoController extends Controller
             'listaCategorias' => $categorias,
             'listaMarcas' => $marcas,
         ]);
+    }
+
+    public function clientes(Request $request) {
+        $marcaSelecionada = $request->input('id_marca');
+    
+        $marcas = Marca::all()->toArray();
+    
+        $produtosQuery = Produto::select(
+                "produto.id",
+                "produto.nome",
+                "produto.quantidade",
+                "produto.preco",
+                "categoria.nome AS catnome",
+                "marca.nome AS marnome",
+                "produto.descricao"
+            )
+            ->join("categoria", "categoria.id", "=", "produto.id_categoria")
+            ->join("marca", "marca.id", "=", "produto.id_marca");
+    
+        // Se uma marca foi selecionada, filtre os produtos por essa marca
+        if ($marcaSelecionada) {
+            $produtosQuery = $produtosQuery->where("marca.id", "=", $marcaSelecionada);
+        }
+    
+        $produtos = $produtosQuery->get();
+    
+        return view("Produto.clientes", [
+            "produtos" => $produtos,
+            'listaMarcas' => $marcas,
+            "marca" => $marcaSelecionada
+        ]);
+    }
+    
+    public function prodcar()
+    {
+        $produtos = Produto::all();
+        return view('produtos', ['produtos' => $produtos]);
+    }
+
+    public function adicionarAoCarrinho(Request $request, Produto $produto)
+    {
+        // Recuperar o carrinho da sessão (ou criar um novo, se não existir)
+        $carrinho = session()->get('carrinho', []);
+
+        // Adicionar o produto ao carrinho
+        $carrinho[] = $produto->id;
+
+        // Armazenar o carrinho de volta na sessão
+        session(['carrinho' => $carrinho]);
+
+        return redirect()->route('produtos.index')->with('success', 'Produto adicionado ao carrinho');
+    }
+
+    public function mostrarCarrinho()
+    {
+        // Recuperar o carrinho da sessão
+        $carrinho = session('carrinho', []);
+
+        // Recuperar os detalhes dos produtos no carrinho
+        $produtosNoCarrinho = Produto::whereIn('id', $carrinho)->get();
+
+        return view('carrinho', ['produtos' => $produtosNoCarrinho]);
     }
 }

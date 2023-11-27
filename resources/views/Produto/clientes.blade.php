@@ -18,7 +18,12 @@
         rel="stylesheet">
 
     <!-- Custom styles for this template-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link href="/css/sb-admin-2.min.css" rel="stylesheet">
+    <link href="/css/style.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
     <script src="https://cdn.tiny.cloud/1/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
 
 
@@ -59,7 +64,7 @@
             </div>
 
             <!-- Nav Item - Pages Collapse Menu -->
-        
+
             <li class="nav-item">
                 <a class="nav-link" href="/produto">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
@@ -76,15 +81,15 @@
                 <a class="nav-link" href="/categoria">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Categorias</span></a>
-            </li>            
+            </li>
 
-    
+
 
             <li class="nav-item">
                 <a class="nav-link" href="index.html">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Usuários</span></a>
-            </li>            
+            </li>
 
             <!-- Nav Item - Pages Collapse Menu -->
             <li class="nav-item active">
@@ -254,8 +259,7 @@
                                 </h6>
                                 <a class="dropdown-item d-flex align-items-center" href="#">
                                     <div class="dropdown-list-image mr-3">
-                                        <img class="rounded-circle" src="img/undraw_profile_1.svg"
-                                            alt="...">
+                                        <img class="rounded-circle" src="img/undraw_profile_1.svg" alt="...">
                                         <div class="status-indicator bg-success"></div>
                                     </div>
                                     <div class="font-weight-bold">
@@ -266,8 +270,7 @@
                                 </a>
                                 <a class="dropdown-item d-flex align-items-center" href="#">
                                     <div class="dropdown-list-image mr-3">
-                                        <img class="rounded-circle" src="img/undraw_profile_2.svg"
-                                            alt="...">
+                                        <img class="rounded-circle" src="img/undraw_profile_2.svg" alt="...">
                                         <div class="status-indicator"></div>
                                     </div>
                                     <div>
@@ -278,8 +281,7 @@
                                 </a>
                                 <a class="dropdown-item d-flex align-items-center" href="#">
                                     <div class="dropdown-list-image mr-3">
-                                        <img class="rounded-circle" src="img/undraw_profile_3.svg"
-                                            alt="...">
+                                        <img class="rounded-circle" src="img/undraw_profile_3.svg" alt="...">
                                         <div class="status-indicator bg-warning"></div>
                                     </div>
                                     <div>
@@ -311,8 +313,7 @@
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span class="mr-2 d-none d-lg-inline text-gray-600 small">Matheus Baptista</span>
-                                <img class="img-profile rounded-circle"
-                                    src="img/undraw_profile.svg">
+                                <img class="img-profile rounded-circle" src="img/undraw_profile.svg">
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
@@ -343,26 +344,147 @@
                 <!-- End of Topbar -->
 
                 <!-- Begin Page Content -->
-                <div class="container-fluid">
-                    @yield('contents')
-                </div>
-                <!-- /.container-fluid -->
+                <section class="barra_navegacao">
+                    <nav class="navbar navbar-expand-lg bg-body-tertiary" data-bs-theme="dark">
+                        <div class="container-fluid">
+                            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false"
+                                aria-label="Toggle navigation">
+                                <span class="navbar-toggler-icon"></span>
+                            </button>
 
-            </div>
-            <!-- End of Main Content -->
 
-            <!-- Footer -->
-            <footer class="sticky-footer bg-white">
-                <div class="container my-auto">
-                    <div class="copyright text-center my-auto">
-                        <span>Copyright &copy; Your Website 2020</span>
+
+                            <div class="collapse navbar-collapse" id="navbarText">
+                                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+
+                                    <!-- Select para a categoria "Todos" -->
+                                    <li class="nav-item">
+                                        <a class="nav-link">Todos</a>
+                                    </li>
+
+                                    
+    @csrf
+    <li class="nav-item" style="margin-left: 10px;">
+        <select name="id_marca" class="form-select" style="margin-bottom: 10px" placeholder="Marca" onchange="this.form.submit()">
+            <option value="" selected>Notebook</option>
+            @foreach ($listaMarcas as $dado)
+                <option value="{{ $dado['id'] }}" @if(isset($marca) && $dado['id']==$marca['id']) selected @endif>{{ $dado["nome"] }}</option>
+            @endforeach
+        </select>
+    </li>
+</form>
+
+
+                                    <!-- Select para a categoria "Notebook" -->
+                                    <!--<li class="nav-item" style="margin-left: 10px;">
+                                        <select name="id_marca" class="form-select" style="margin-bottom: 10px" placeholder="Marca">
+                                        <option value="" selected>Notebook</option>
+                                            @foreach ($listaMarcas as $dado)
+                                            <option value="{{ $dado['id'] }}" @if(isset($marca) &&
+                                                $dado['id']==$marca['id']) selected @endif>{{ $dado["nome"] }}</option>
+                                            @endforeach
+                                        </select>
+                                    </li>-->
+
+                                    <!-- Select para a categoria "Monitor" -->
+                                    <li class="nav-item" style="margin-left: 10px;">
+                                        <select class="form-select" onchange="location = this.value;">
+                                            <option value="" selected>Monitor</option>
+                                            @foreach ($listaMarcas as $dado)
+                                            <option value="{{ $dado['id'] }}" @if(isset($marca) &&
+                                                $dado['id']==$marca['id']) selected @endif>{{ $dado["nome"] }}</option>
+                                            @endforeach
+                                           
+                                        </select>
+                                    </li>
+                                    <li class="nav-item" style="margin-left: 10px;">
+                                        <select class="form-select" onchange="location = this.value;">
+                                            <option value="" selected>Mouse</option>
+                                            @foreach ($listaMarcas as $dado)
+                                            <option value="{{ $dado['id'] }}" @if(isset($marca) &&
+                                                $dado['id']==$marca['id']) selected @endif>{{ $dado["nome"] }}</option>
+                                            @endforeach
+                                        </select>
+                                    </li>
+
+                                </ul>
+
+                                <!-- Carrinho no canto direito -->
+                                <ul class="navbar-nav ml-auto">
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#">Carrinho</a>
+                                    </li>
+                                </ul>
+                            </div>
+
+
+
+                    </nav>
+                </section>
+
+                <div class="card_produtos">
+                    <?php for ($i = 0; $i < count($produtos); $i++) {
+    $item = $produtos[$i]["item"];
+    $nome = $produtos[$i]["nome"];
+    $descricao = $produtos[$i]["descricao"];
+    $marca = $produtos[$i]["marnome"];
+    $categoria = $produtos[$i]["catnome"];
+    $preco = $produtos[$i]["preco"];
+    $quantidade = $produtos[$i]["quantidade"];
+    $url_imagem = $produtos[$i]["url_imagem"];
+    ?>
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <div class="card text-center text-bg-dark" style="width: 20rem;">
+                                <img src="https://static.wixstatic.com/media/0791cb_1f5071e374944f50a422d3880cd05d73.jpg/v1/fill/w_544,h_408,al_c,q_80,usm_0.66_1.00_0.01,enc_auto/0791cb_1f5071e374944f50a422d3880cd05d73.jpg"
+                                    class="card-img-top" alt="...">
+                                <h5 class="card-title">
+                                    <?php echo $nome; ?>
+                                </h5>
+                                <p class="card-text" id="descricao">Descrição:
+                                    <?php echo $descricao; ?>
+                                </p>
+                                <p class="card-text" id="preco">Preço:
+                                    <?php echo $preco; ?>
+                                </p>
+                                <p class="card-text" id="quantidade">Quantidade:
+                                    <?php echo $quantidade; ?>
+                                </p>
+                                <p class="card-text" id="marca">Marca:
+                                    <?php echo $marca; ?>
+                                </p>
+                                <p class="card-text" id="categoria">Categoria:
+                                    <?php echo $categoria; ?>
+                                </p>
+                                <!--<a class="btn btn-outline-light" href="detalhesproduto.php?item=<?php echo $item; ?>">Detalhes do Produto</a>-->
+                                <a style="text-decoration:none;" href="./detalhesproduto.php?item=<?php echo $item; ?>">
+                                    <div class="card-body"> Adicionar no Carrinho
+                                </a>
+                            </div>
+
+                        </div>
                     </div>
                 </div>
-            </footer>
-            <!-- End of Footer -->
+                <?php } ?>
+            </div>
+            <!-- /.container-fluid -->
 
         </div>
-        <!-- End of Content Wrapper -->
+        <!-- End of Main Content -->
+
+        <!-- Footer -->
+        <footer class="sticky-footer bg-white">
+            <div class="container my-auto">
+                <div class="copyright text-center my-auto">
+                    <span>Copyright &copy; Your Website 2020</span>
+                </div>
+            </div>
+        </footer>
+        <!-- End of Footer -->
+
+    </div>
+    <!-- End of Content Wrapper -->
 
     </div>
     <!-- End of Page Wrapper -->
@@ -391,6 +513,7 @@
             </div>
         </div>
     </div>
+
 
     <!-- Bootstrap core JavaScript-->
     <script src="/vendor/jquery/jquery.min.js"></script>

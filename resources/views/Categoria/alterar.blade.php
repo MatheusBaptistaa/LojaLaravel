@@ -8,7 +8,7 @@
                 @csrf
                 @method('PUT')
 
-                <label>Nome da Marca</label>
+                <label>Nome da Categoria</label>
                 <input type="text" name="nome" style="margin-bottom: 10px" placeholder="Nome" value="{{ $categoria['nome'] }}">
 
 

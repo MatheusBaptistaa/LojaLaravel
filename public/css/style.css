@@ -1,0 +1,46 @@
+@import url('https://fonts.googleapis.com/css2?family=Comme:wght@500&display=swap');
+
+body
+{
+    
+    font-family: 'Comme', sans-serif;
+      
+}
+.card_title
+{
+    padding: 10px;
+}
+
+.card_produtos
+{
+    background-color:black;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.card
+{
+    margin: 20px;
+    height: 650px;
+    position: relative;
+    
+}
+
+.card-body .btn
+{
+    width: 200px;
+    position: absolute;
+    top: 550px;
+    right: 0px;
+    margin-right: 50px;
+}
+.card-text
+{
+    color: rgb(7, 255, 7);
+}
+
+.card-title
+{
+    color: tomato
+}
