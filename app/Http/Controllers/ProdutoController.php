@@ -135,7 +135,7 @@ class ProdutoController extends Controller
             
             $categoriaSelecionada = is_array($categoriaSelecionada) ? $categoriaSelecionada : [$categoriaSelecionada];
     
-            $produtosQuery = $produtosQuery->whereIn("marca.id", $categoriaSelecionada);
+            $produtosQuery = $produtosQuery->whereIn("categoria.id", $categoriaSelecionada);
         }
     
         $produtos = $produtosQuery->get();
