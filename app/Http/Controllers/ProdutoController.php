@@ -108,8 +108,9 @@ class ProdutoController extends Controller
 
     public function clientes(Request $request) {
         $marcaSelecionada = $request->input('id_marca');
-    
+        $categoriaSelecionada = $request->input('id_categoria');
         $marcas = Marca::all()->toArray();
+        $categoria = Categoria::all()->toArray();
     
         $produtosQuery = Produto::select(
                 "produto.id",
@@ -124,8 +125,17 @@ class ProdutoController extends Controller
             ->join("marca", "marca.id", "=", "produto.id_marca");
     
         // Se uma marca foi selecionada, filtre os produtos por essa marca
-        if ($marcaSelecionada) {
-            $produtosQuery = $produtosQuery->where("marca.id", "=", $marcaSelecionada);
+        if ($marcaSelecionada !== null) {
+            // Certifique-se de que $marcaSelecionada é um array
+            $marcaSelecionada = is_array($marcaSelecionada) ? $marcaSelecionada : [$marcaSelecionada];
+    
+            $produtosQuery = $produtosQuery->whereIn("marca.id", $marcaSelecionada);
+        }
+        if ($categoriaSelecionada !== null) {
+            
+            $categoriaSelecionada = is_array($categoriaSelecionada) ? $categoriaSelecionada : [$categoriaSelecionada];
+    
+            $produtosQuery = $produtosQuery->whereIn("marca.id", $categoriaSelecionada);
         }
     
         $produtos = $produtosQuery->get();
@@ -133,9 +143,12 @@ class ProdutoController extends Controller
         return view("Produto.clientes", [
             "produtos" => $produtos,
             'listaMarcas' => $marcas,
+            "listaCategorias" => $categoria,
             "marca" => $marcaSelecionada
         ]);
     }
+    
+    
     
     public function prodcar()
     {

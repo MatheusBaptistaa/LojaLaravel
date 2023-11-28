@@ -344,190 +344,149 @@
                 <!-- End of Topbar -->
 
                 <!-- Begin Page Content -->
-                <section class="barra_navegacao">
-                    <nav class="navbar navbar-expand-lg bg-body-tertiary" data-bs-theme="dark">
-                        <div class="container-fluid">
-                            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                                data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false"
-                                aria-label="Toggle navigation">
-                                <span class="navbar-toggler-icon"></span>
-                            </button>
+                <div id="wrapper">
+                    <div id="content-wrapper" class="d-flex flex-column">
+                        <div id="content">
+                            <form method="GET" action="{{ route('produto.clientes') }}">
+                                @csrf
+                                <section class="barra_navegacao">
+                                    <nav class="navbar navbar-expand-lg bg-body-tertiary" data-bs-theme="dark">
+                                        <div class="container-fluid">
+                                            <!-- ... Botão do menu responsivo ... -->
 
+                                            <div class="collapse navbar-collapse" id="navbarText">
+                                                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                                                    <!-- ... Seção de marca ... -->
+                                                </ul>
 
+                                                <!-- Filtro por marca -->
+                                                <ul class="navbar-nav">
+                                                    <li class="nav-item" style="margin-left: 10px;">
+                                                        <label for="id_marca" class="text-white">Marca:</label>
+                                                        <select name="id_marca" class="form-select"
+                                                            onchange="this.form.submit()">
+                                                            <option value="" @if(empty($marca)) selected @endif>Todos
+                                                            </option>
+                                                            @foreach ($listaMarcas as $dado)
+                                                            <option value="{{ $dado['id'] }}" @if(isset($marca) &&
+                                                                $dado['id']==$marca) selected @endif>{{
+                                                                $dado["nome"] }}</option>
+                                                            @endforeach
+                                                        </select>
+                                                    </li>
+                                                </ul>
 
-                            <div class="collapse navbar-collapse" id="navbarText">
-                                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                                                <!-- Filtro por categoria -->
+                                                <ul class="navbar-nav">
+                                                    <li class="nav-item" style="margin-left: 10px;">
+                                                        <label for="id_categoria" class="text-white">Categoria:</label>
+                                                        <select name="id_categoria" class="form-select"
+                                                            onchange="this.form.submit()">
+                                                            <option value="" @if(empty($categoria)) selected @endif>Todos
+                                                            </option>
+                                                            @foreach ($listaCategorias as $dado)
+                                                            <option value="{{ $dado['id'] }}" @if(isset($categoria) &&
+                                                                $dado['id']==$categoria) selected @endif>{{
+                                                                $dado["nome"] }}</option>
+                                                            @endforeach
+                                                        </select>
+                                                    </li>
+                                                </ul>
 
-                                    <!-- Select para a categoria "Todos" -->
-                                    <li class="nav-item">
-                                        <a class="nav-link">Todos</a>
-                                    </li>
+                                                <!-- Carrinho no canto direito -->
+                                                <ul class="navbar-nav ml-auto">
+                                                    <li class="nav-item">
+                                                        <a class="nav-link" href="#">Carrinho</a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </nav>
+                                </section>
+                            </form>
 
-                                    
-    @csrf
-    <li class="nav-item" style="margin-left: 10px;">
-        <select name="id_marca" class="form-select" style="margin-bottom: 10px" placeholder="Marca" onchange="this.form.submit()">
-            <option value="" selected>Notebook</option>
-            @foreach ($listaMarcas as $dado)
-                <option value="{{ $dado['id'] }}" @if(isset($marca) && $dado['id']==$marca['id']) selected @endif>{{ $dado["nome"] }}</option>
-            @endforeach
-        </select>
-    </li>
-</form>
-
-
-                                    <!-- Select para a categoria "Notebook" -->
-                                    <!--<li class="nav-item" style="margin-left: 10px;">
-                                        <select name="id_marca" class="form-select" style="margin-bottom: 10px" placeholder="Marca">
-                                        <option value="" selected>Notebook</option>
-                                            @foreach ($listaMarcas as $dado)
-                                            <option value="{{ $dado['id'] }}" @if(isset($marca) &&
-                                                $dado['id']==$marca['id']) selected @endif>{{ $dado["nome"] }}</option>
-                                            @endforeach
-                                        </select>
-                                    </li>-->
-
-                                    <!-- Select para a categoria "Monitor" -->
-                                    <li class="nav-item" style="margin-left: 10px;">
-                                        <select class="form-select" onchange="location = this.value;">
-                                            <option value="" selected>Monitor</option>
-                                            @foreach ($listaMarcas as $dado)
-                                            <option value="{{ $dado['id'] }}" @if(isset($marca) &&
-                                                $dado['id']==$marca['id']) selected @endif>{{ $dado["nome"] }}</option>
-                                            @endforeach
-                                           
-                                        </select>
-                                    </li>
-                                    <li class="nav-item" style="margin-left: 10px;">
-                                        <select class="form-select" onchange="location = this.value;">
-                                            <option value="" selected>Mouse</option>
-                                            @foreach ($listaMarcas as $dado)
-                                            <option value="{{ $dado['id'] }}" @if(isset($marca) &&
-                                                $dado['id']==$marca['id']) selected @endif>{{ $dado["nome"] }}</option>
-                                            @endforeach
-                                        </select>
-                                    </li>
-
-                                </ul>
-
-                                <!-- Carrinho no canto direito -->
-                                <ul class="navbar-nav ml-auto">
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="#">Carrinho</a>
-                                    </li>
-                                </ul>
+                            <div class="card_produtos">
+                                @foreach ($produtos as $produto)
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <div class="card text-center text-bg-dark" style="width: 20rem;">
+                                            <img src="https://static.wixstatic.com/media/0791cb_1f5071e374944f50a422d3880cd05d73.jpg/v1/fill/w_544,h_408,al_c,q_80,usm_0.66_1.00_0.01,enc_auto/0791cb_1f5071e374944f50a422d3880cd05d73.jpg"
+                                                class="card-img-top" alt="...">
+                                            <h5 class="card-title">{{ $produto["nome"] }}</h5>
+                                            <p class="card-text" id="descricao">Descrição: {{ $produto["descricao"] }}
+                                            </p>
+                                            <p class="card-text" id="preco">Preço: {{ $produto["preco"] }}</p>
+                                            <p class="card-text" id="quantidade">Quantidade: {{ $produto["quantidade"]
+                                                }}</p>
+                                            <p class="card-text" id="marca">Marca: {{ $produto["marnome"] }}</p>
+                                            <p class="card-text" id="categoria">Categoria: {{ $produto["catnome"] }}</p>
+                                            <a style="text-decoration:none;"
+                                                href="./detalhesproduto.php?item={{ $produto[" item"] }}">
+                                                <div class="card-body"> Adicionar no Carrinho
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                @endforeach
                             </div>
-
-
-
-                    </nav>
-                </section>
-
-                <div class="card_produtos">
-                    <?php for ($i = 0; $i < count($produtos); $i++) {
-    $item = $produtos[$i]["item"];
-    $nome = $produtos[$i]["nome"];
-    $descricao = $produtos[$i]["descricao"];
-    $marca = $produtos[$i]["marnome"];
-    $categoria = $produtos[$i]["catnome"];
-    $preco = $produtos[$i]["preco"];
-    $quantidade = $produtos[$i]["quantidade"];
-    $url_imagem = $produtos[$i]["url_imagem"];
-    ?>
-                    <div class="row">
-                        <div class="col-sm-3">
-                            <div class="card text-center text-bg-dark" style="width: 20rem;">
-                                <img src="https://static.wixstatic.com/media/0791cb_1f5071e374944f50a422d3880cd05d73.jpg/v1/fill/w_544,h_408,al_c,q_80,usm_0.66_1.00_0.01,enc_auto/0791cb_1f5071e374944f50a422d3880cd05d73.jpg"
-                                    class="card-img-top" alt="...">
-                                <h5 class="card-title">
-                                    <?php echo $nome; ?>
-                                </h5>
-                                <p class="card-text" id="descricao">Descrição:
-                                    <?php echo $descricao; ?>
-                                </p>
-                                <p class="card-text" id="preco">Preço:
-                                    <?php echo $preco; ?>
-                                </p>
-                                <p class="card-text" id="quantidade">Quantidade:
-                                    <?php echo $quantidade; ?>
-                                </p>
-                                <p class="card-text" id="marca">Marca:
-                                    <?php echo $marca; ?>
-                                </p>
-                                <p class="card-text" id="categoria">Categoria:
-                                    <?php echo $categoria; ?>
-                                </p>
-                                <!--<a class="btn btn-outline-light" href="detalhesproduto.php?item=<?php echo $item; ?>">Detalhes do Produto</a>-->
-                                <a style="text-decoration:none;" href="./detalhesproduto.php?item=<?php echo $item; ?>">
-                                    <div class="card-body"> Adicionar no Carrinho
-                                </a>
-                            </div>
-
                         </div>
                     </div>
                 </div>
-                <?php } ?>
+                <!-- Footer -->
+                <footer class="sticky-footer bg-white">
+                    <div class="container my-auto">
+                        <div class="copyright text-center my-auto">
+                            <span>Copyright &copy; Your Website 2020</span>
+                        </div>
+                    </div>
+                </footer>
+                <!-- End of Footer -->
+
             </div>
-            <!-- /.container-fluid -->
+            <!-- End of Content Wrapper -->
 
         </div>
-        <!-- End of Main Content -->
+        <!-- End of Page Wrapper -->
 
-        <!-- Footer -->
-        <footer class="sticky-footer bg-white">
-            <div class="container my-auto">
-                <div class="copyright text-center my-auto">
-                    <span>Copyright &copy; Your Website 2020</span>
-                </div>
-            </div>
-        </footer>
-        <!-- End of Footer -->
+        <!-- Scroll to Top Button-->
+        <a class="scroll-to-top rounded" href="#page-top">
+            <i class="fas fa-angle-up"></i>
+        </a>
 
-    </div>
-    <!-- End of Content Wrapper -->
-
-    </div>
-    <!-- End of Page Wrapper -->
-
-    <!-- Scroll to Top Button-->
-    <a class="scroll-to-top rounded" href="#page-top">
-        <i class="fas fa-angle-up"></i>
-    </a>
-
-    <!-- Logout Modal-->
-    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="login.html">Logout</a>
+        <!-- Logout Modal-->
+        <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                        <a class="btn btn-primary" href="login.html">Logout</a>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
 
-    <!-- Bootstrap core JavaScript-->
-    <script src="/vendor/jquery/jquery.min.js"></script>
-    <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+        <!-- Bootstrap core JavaScript-->
+        <script src="/vendor/jquery/jquery.min.js"></script>
+        <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
-    <!-- Core plugin JavaScript-->
-    <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
+        <!-- Core plugin JavaScript-->
+        <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
 
-    <!-- Custom scripts for all pages-->
-    <script src="/js/sb-admin-2.min.js"></script>
+        <!-- Custom scripts for all pages-->
+        <script src="/js/sb-admin-2.min.js"></script>
 
-    <!-- Inclusão de editar HTML na descrição-->
-    <script src="https://cdn.ckeditor.com/ckeditor5/40.0.0/classic/ckeditor.js"></script>
-    @yield('scripts')
+        <!-- Inclusão de editar HTML na descrição-->
+        <script src="https://cdn.ckeditor.com/ckeditor5/40.0.0/classic/ckeditor.js"></script>
+        @yield('scripts')
 
 
 </body>
