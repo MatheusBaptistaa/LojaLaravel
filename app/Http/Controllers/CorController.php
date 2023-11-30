@@ -2,65 +2,49 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Cor;
 use Illuminate\Http\Request;
+use App\Models\Cor;
 
 class CorController extends Controller
 {
     public function index(){
-        $dados = Cor::all()->toArray();
-        return view('Cor.index', [
-            'listaCores' => $dados,
+        $dados = Cor::all()->toArray();        
+        
+        return View("Cor.index",
+        [
+            'cores' => $dados
         ]);
     }
+
     public function inserir(){
-        return view('Cor.inserir');
+        return View("Cor.formulario");
     }
-    public function inserirSubmit(Request $request){
-        $request->validate([
-            'cor' => 'required',
-            'situacao' => 'required',
-        ]);
 
-        $cor = new Cor();
-        $cor->cor = $request->input('cor');
-        $cor->situacao = $request->input('situacao');
+    public function salvar_novo(Request $request){
+        $cor = new Cor;
+        $cor->nome = $request->input("cor");         
+        $cor->situacao = $request->input("situacao");       
         $cor->save();
-
-        return redirect()->route('cor.index')->with('success', 'Cor inserida com sucesso.');
+        return redirect("/cor");          
     }
 
     public function excluir($id){
         $cor = Cor::find($id);
-        if (!$cor) {
-            return redirect()->route('cor.index')->with('error', 'Cor não encontrada.');
-        }
-
         $cor->delete();
-
-        return redirect()->route('cor.index')->with('success', 'Cor excluida com sucesso.');
+        return redirect("/cor"); 
     }
+    
     public function alterar($id){
-        $cor = Cor::find($id);
-
-        if (!$cor) {
-            return redirect()->route('cor.index')->with('error', 'Cor não encontrada.');
-        }
-
-        return view('Cor.alterar', compact('cor'));
+        $cor = Cor::find($id)->toArray();
+        return View("Cor.formulario",['cor'=>$cor]);    
     }
 
-    public function alterarCor(Request $request, $id){
-        $request->validate([
-            'cor' => 'required',
-            'situacao' => 'required',
-        ]);
+    public function salvar_update(Request $request){
+        $id = $request->input("id");
         $cor = Cor::find($id);
-
-        $cor->cor = $request->input('cor');
-        $cor->situacao = $request->input('situacao');
+        $cor->nome = $request->input("cor");        
+        $cor->situacao = $request->input("situacao");
         $cor->save();
-
-        return redirect()->route('cor.index')->with('success', 'Cor editada com sucesso.');
+        return redirect("/cor"); 
     }
 }

@@ -1,48 +1,39 @@
 @extends('TemplateAdmin.index')
-
 @section('contents')
-    <h1 class="h3 mb-4 text-gray-800">Categoria de Produtos</h1>
-
+    <h1 class="h3 mb-4 text-gray-800">Categoria de produtos</h1>
+    
     <div class="card">
+        <div class="card-header">
+           Categorias
+        </div>
         <div class="card-body">
-            <a href="/categoria/inserir" class="btn btn-success" style="margin-bottom: 10px">Novo</a>
+            <a href='/categoria/novo' class="btn btn-success">
+                Novo
+            </a>
             <table class="table table-bordered dataTable">
                 <thead>
-                <td>ID</td>
-                <td>Nome</td>
-                <td>Situação</td>
-                <td>Opções</td>
-                </thead>
+                    <td>ID</td>
+                    <td>Nome</td>                    
+                    <td>Situação</td>
+                </thead>            
                 <tbody>
-                @foreach($listaCategorias as $item)
-                    <tr>
-                        <td>{{$item['id']}}</td>
-                        <td>{{$item['nome']}}</td>
-                        <td>{{$item['situacao']}}</td>
-                        <td>
-                            <div style="display: flex; width: 100%">
-                                <form style="margin-left: 20px"
-                                      action="{{ route('categoria.alterar', ['id' => $item['id']]) }}" method="get">
-                                    @csrf
-                                    @method('GET')
-                                    <button type="submit" class="btn btn-success">
-                                        Alterar
-                                    </button>
-                                </form>
-                                <form style="margin-left: 20px"
-                                      action="{{ route('categoria.excluir', ['id' => $item['id']]) }}" method="POST">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn btn-danger">
-                                        Excluir
-                                    </button>
-                                </form>
-                            </div>
-                        </td>
-                    </tr>
-                @endforeach
+                    @foreach($categorias as $linha)
+                        <tr>
+                            <td>{{$linha['id']}}</td>
+                            <td>{{$linha['nome']}} </td>
+                            <td>{{$linha['situacao']}}</td>
+                            <td>
+                                <a href="/categoria/update/{{$linha['id']}}" class="btn btn-success"><li class="fa fa-edit"></li></a>
+                                <a href="/categoria/excluir/{{$linha['id']}}" class="btn btn-danger"><li class="fa fa-trash"></li></a>
+                            </td>                 
+                        </tr>
+                    @endforeach                   
                 </tbody>
             </table>
         </div>
     </div>
 @endsection
+
+<!-- 
+    php artisan make:migration create_table_marca 
+-->

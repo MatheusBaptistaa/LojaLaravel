@@ -422,7 +422,10 @@
                                             <p class="card-text" id="categoria">Categoria: {{ $produto["catnome"] }}</p>
                                             <a style="text-decoration:none;"
                                                 href="./detalhesproduto.php?item={{ $produto[" item"] }}">
-                                                <div class="card-body"> Adicionar no Carrinho
+                                                <form method="POST" action="{{ route('adicionar.ao.carrinho', ['produtoId' => $produto['id']]) }}">
+                                                        @csrf
+                                                        <button type="submit">Adicionar no Carrinho</button>
+                                                    </form>
                                             </a>
                                         </div>
                                     </div>

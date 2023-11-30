@@ -11,7 +11,7 @@
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
  */
 :root {
-  --blue: #020716;
+  --blue: #4e73df;
   --indigo: #6610f2;
   --purple: #6f42c1;
   --pink: #e83e8c;
@@ -159,7 +159,7 @@ sup {
 }
 
 a {
-  color: #df6823;
+  color: #4e73df;
   text-decoration: none;
   background-color: transparent;
 }
@@ -6491,7 +6491,7 @@ button.bg-dark:focus {
 }
 
 .bg-white {
-  background-color: #fff !important;
+  background-image:linear-gradient(180deg,#f1af09 10%,#ff0000 100%);
 }
 
 .bg-transparent {

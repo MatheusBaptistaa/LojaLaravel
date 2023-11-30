@@ -2,65 +2,52 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Categoria;
 use Illuminate\Http\Request;
+use App\Models\Categoria;
 
 class CategoriaController extends Controller
 {
     public function index(){
-        $dados = Categoria::all()->toArray();
-        return view('Categoria.index', [
-            'listaCategorias' => $dados,
+        
+        $dados = Categoria::all()->toArray();  //select de categorias - laravel    
+        
+        return View("Categoria.index",
+        [
+            'categorias' => $dados
         ]);
     }
+
     public function inserir(){
-        return view('Categoria.inserir');
+        return View("Categoria.formulario");
     }
-    public function inserirSubmit(Request $request){
-        $request->validate([
-            'nome' => 'required',
-            'situacao' => 'required',
-        ]);
 
-        $categoria = new Categoria();
-        $categoria->nome = $request->input('nome');
-        $categoria->situacao = $request->input('situacao');
+    public function salvar_novo(Request $request){
+        $categoria = new Categoria;
+        $categoria->nome = $request->input("nome");         
+        $categoria->situacao = $request->input("situacao"); 
         $categoria->save();
-
-        return redirect()->route('categoria.index')->with('success', 'Categoria inserida com sucesso.');
+        return redirect("/categoria");                  
+        exit;
     }
 
     public function excluir($id){
         $categoria = Categoria::find($id);
-        if (!$categoria) {
-            return redirect()->route('categoria.index')->with('error', 'Categoria não encontrada.');
-        }
-
         $categoria->delete();
-
-        return redirect()->route('categoria.index')->with('success', 'Categoria excluida com sucesso.');
+        return redirect("/categoria");        
     }
+    
     public function alterar($id){
-        $categoria = Categoria::find($id);
-
-        if (!$categoria) {
-            return redirect()->route('categoria.index')->with('error', 'Categoria não encontrada.');
-        }
-
-        return view('Categoria.alterar', compact('categoria'));
+        $categoria = Categoria::find($id)->toArray();
+        return View("Categoria.formulario",['categoria'=>$categoria]);
+        var_dump($categoria);          
     }
 
-    public function alterarCategoria(Request $request, $id){
-        $request->validate([
-            'nome' => 'required',
-            'situacao' => 'required',
-        ]);
+    public function salvar_update(Request $request){
+        $id = $request->input("id");
         $categoria = Categoria::find($id);
-
-        $categoria->nome = $request->input('nome');
-        $categoria->situacao = $request->input('situacao');
+        $categoria->nome = $request->input("nome");        
+        $categoria->situacao = $request->input("situacao");
         $categoria->save();
-
-        return redirect()->route('categoria.index')->with('success', 'Categoria editada com sucesso.');
+        return redirect("/categoria");        
     }
 }
